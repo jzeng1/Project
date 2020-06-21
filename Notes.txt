@@ -1,0 +1,3 @@
+Run by Python 3
+Commands to run on putty
+"python3 proj3.py"

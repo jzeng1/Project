@@ -1,0 +1,167 @@
+# File:    design3.txt
+# Author:  Jason Zeng
+# Date:    6/18/2017
+# Section: 22
+# E-mail:  jzeng1@umbc.edu
+# Description: This Program will indicate if the final food cordinated with the
+#              color levers with a set amount of rules for each. if the food is
+#              edible or containmated with what color.
+
+#I don't have any constant for this design as of right now, but if other number are being used other than 0 and 1 i will create a constant for it
+#it also says in the project that we are able to use magic string for the diffrent color instead of making it into a constant so there are no constant
+#for the color
+
+########################################################################
+# fileIoAccessColor() opens the txt file and prints out the board      #
+#                                                                      #
+# Input:  NONE                                                         #
+# Output: the board; 1d list                                           #
+
+def fileIoAccessColor():
+
+  #This list contain all of the words
+  listOfColors = []
+
+  inputColor = input("Please enter a file for input: ")
+  colorToFind = open(inputColor,"r")
+
+  #going through colorToFind so that it can be split then appended to a list
+  for eachLine in colorToFind:
+      theColor = eachLine.strip()
+      listOfColors.append(theColor)
+
+  #This closes the file
+  colorToFind.close()
+
+  return listOfColors
+
+#########################################################################
+# firstLever() This indicates which path it going first so if the first #
+#              value is white then it remove white from the list and is #
+#              called to another function called whiteLever.            #
+# Input:  1d list of the colors, string the color                       #
+# Output: NONE                                                          #
+
+def firstLever(listOfColor,otherColor):
+
+   #If the otherColor is white which is the first element in the listOfColor then it removes
+   #white an example output would be [white,green,black,white] to [green,black,white]
+   if otherColor == 'white':
+      listOfColor.remove('white')
+
+      #This call whiteLever and send the next color in the list with the updated list.
+      #an example output would be (white ['white', 'green', 'black', 'white', 'green', 'yellow', 'red'])
+      #This pretty much work the same as the other color levers function i have down below just repeated code
+      whiteLever(listOfColor[0],listOfColor)
+
+  elif otherColor =='black':
+       listOfColor.remove('black')
+       blackLever(listOfColor[0],listOfColor)
+
+########################################################################
+# whiteLever() This indicates if the path is going either green or     #
+#              white. If the next color is white then it goes to this  #
+#              function.                                               #
+#                                                                      #
+# Input:  string the updated color, 1d list of the color that updated  #
+# Output: NONE                                                         #
+
+def whiteLever(otherColor,listOfColor):
+    print(otherColor,listOfColor)
+
+    if otherColor == 'green':
+       listOfColor.remove('green')
+       greenLever(listOfColor[0],listOfColor)
+       
+   elif otherColor =='white':
+   	listOfColor.remove('white')
+	whiteLever(listOfColor[0],listOfColor)
+
+#########################################################################
+# blackLever() This indicates if the path is going either white or      #
+#              red. If the next color is black then it goes to this     #
+#              function.                                                #
+#                                                                       #
+# Input:  string the updated color, 1d list of the color that updated   #
+# Output: NONE                                                          #
+
+def blackLever(otherColor,listOfColor):
+    print(otherColor,listOfColor)
+
+    if otherColor == 'white':
+       listOfColor.remove('white')
+       whiteLever(listOfColor[0],listOfColor)
+
+    elif otherColor == 'red':
+       	 listOfColor.remove('red')
+       	 redLever(listOfColor[0],listOfColor)
+
+########################################################################
+# redLever()This indicates if the path is going red. If the next color #
+#           is red then it goes to this function.                      #
+#                                                                      #
+# Input:  string the updated color, 1d list of the color that updated  #
+# Output: NONE                                                         #
+
+#This still need some editing to do
+def redLever(otherColor,listOfColor):
+  print(otherColor,listOfColor)
+
+    if otherColor == 'red':
+        print('redd')
+
+#########################################################################
+# greenLever() This indicates if the path is going either black or      #
+#              yellow. If the next color is green then it goes to this  #
+#              function.                                                #
+#                                                                       #
+# Input: string the updated color, 1d list of the color that updated    #
+# Output: NONE                                                          #
+
+def greenLever(otherColor,listOfColor):
+  print(otherColor,listOfColor)
+
+  if otherColor == 'black':
+     listOfColor.remove('black')
+     blackLever(listOfColor[0],listOfColor)
+
+  elif otherColor == 'yellow':
+     print('yelloww')
+
+#########################################################################
+# yellowLever() This checks if the food is edible or not if its edible  #
+#               it would check if the last two levers are yellow if not # 
+#               then it not edible                                      #
+#                                                                       #
+# Input: string the updated color, 1d list of the color that updated    #
+# Output: print if the food is edible or not.                           #
+
+#This also still need some editing to do
+def yellowLever(theColor):
+
+    if len(theColor) == 1:
+       if theColor[len(theColor) - 1] == 'yellow':
+       	  print('You pull a', theColor[len(theColor) - 1],'lever, and the food is inedible.')
+	else:
+	  print('You pull a', theColor[len(theColor) - 1],'lever, and the food is inedible.')
+
+    elif theColor[len(theColor) - 2] == 'yellow' and theColor[len(theColor) - 1] == 'yellow':
+      print('The final food is edible.')
+
+    #elif theColor[len(theColor) - 2] == 'red' or theColor[len(theColor) - 1] == 'red':
+      #print('You pull a red lever, and the food is inedible.')
+    else:
+	print('You pull a', theColor[len(theColor) - 1],'lever, and the food is inedible.')
+
+def main():
+
+    theColor = fileIoAccessColor()
+    print(theColor)
+
+    #yellowLever(theColor)
+
+    #This is to intialized the value otherColor with the first element inside the list
+    otherColor = theColor[0]
+    firstLever(theColor,otherColor)
+
+main()

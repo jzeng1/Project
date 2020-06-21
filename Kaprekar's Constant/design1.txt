@@ -1,0 +1,117 @@
+# File:    design1.txt
+# Author:  Jason Zeng
+# Date:    6/3/2017
+# Section: 22
+# E-mail:  jzeng1@umbc.edu
+# Description: Determine the steps require of a give number from the user to get Kaprekar's Constant.
+
+#These are constant to avoid magic numbers this is used in printMenu
+ACCESS_CHOICE1 = 1
+ACCESS_CHOICE2 = 2
+ACCESS_CHOICE3 = 3
+
+########################################################################
+# printGreetings() print the greetings of the program                  #
+#                                                                      #
+# Input:  NONE                                                         #
+# Output: NONE it prints the greetings                                 #
+
+def printGreetings():
+  print("Welcome to the Kaprekar's Constant Inquiry Desk!")
+
+########################################################################
+# printMenu() print give choices in the menu                           #
+#                                                                      #
+# Input:  NONE                                                         #
+# Output: NONE it prints the Menu                                      #
+
+def printMenu():
+  menuList = [["Count iterations",ACCESS_CHOICE1],
+              ["Show work on iterations",ACCESS_CHOICE2],
+	      ["Exit",ACCESS_CHOICE3]
+  print()
+  counter = 0
+  while counter < len(menuList):
+  	print("\t", menuList[counter][1], "-",menuList[counter][0])
+        counter += 1
+
+########################################################################
+# reversedNum() reversing the number and calcualting the value and the #
+# number of step required to get to 6174 which is Kaprekar's Constant  #
+# Input:  an integer from forDigNum in main()                          #
+# Output: return an integer which is the calculated value, step total  #
+# and also the reverse number.
+
+#def reversedNum():
+
+########################################################################
+# numberOfSteps() Display the steps taken to get to the number 6174    #
+#                                                                      #
+# Input:  three diffrent integer 1 is the user input forDigNum the     #
+# reverse value and the calculated value when it being subtract        #
+# Output: NONE it displays the steps and from the calcualtions and the #
+# number it took to reach kaperkar's constant                          #
+
+#def numberOfSteps():
+
+
+def main():
+  printGreetings()
+  printMenu()
+  menuChoice = int(input("\nPlease make a menu choice: "))
+  forDigNum = input("Please enter a four-digit number: ")
+
+  while menuChoice != ACCESS_CHOICE3:
+      if menuChoice == ACCESS_CHOICE1:
+        print()
+	print("It took totalSteps steps to reach Kaprekar's constant")
+		  
+     elif menuChoice == ACCESS_CHOICE2:
+        print()
+	print("It took totalSteps steps to reach Kaprekar's constant")
+
+	printMenu()
+	menuChoice = int(input("\nPlease make a menu choice: "))
+			     
+	if menuChoice != ACCESS_CHOICE3:
+	   forDigNum = input("Please enter a four-digit number: ")
+
+#ALL OF THIS CODE AT THE BOTTOM WILL BE IN THE FUNCTION THAT I CREATED in numberOfSteps() or in reversedNum() 
+#This concatenate the number as a string in reverse order
+ revesedNum = forDigNum[3] + forDigNum[2] + forDigNum[1] + forDigNum[0]
+
+#Then casting it to an int to be subtracted
+ newNum = int(forDigNum) - int(revesedNum)
+
+#Then reverting back to a string which is then put into a list
+ myList = list(str(newNum))
+
+#This changes ['6', '9', '9', '3'] to [6, 9, 9, 3] so changing the string to an integer
+#Which is used to help me order the numbers from greatest to least.
+ myResults = [int(x) for x in myList]
+
+#This list an updated list from myResults in order from greatest to least
+ newList = []
+
+while myResults:
+
+# arbitrary number in list for results
+  minimum = myResults[0]
+
+#This goes through every element inside the list results
+  for index in myResults:
+      if index > minimum:
+	minimum = index
+
+      newList.append(minimum)	
+      myResults.remove(minimum)
+
+#This changes [9, 9, 6, 3] to ['9', '9', '6', '3'] so changing the integer back to a
+#string which is used to help me concatenate the given numbers.
+  myResultsInString = [str(x) for x in newList]
+
+#This join the string inside the list
+ finalResult = "".join(myResultsInString)
+ print(finalResult)
+
+main()

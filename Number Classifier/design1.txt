@@ -1,0 +1,145 @@
+# File:    design1.txt
+# Author:  Jason Zeng
+# Date:    3/7/2017
+# Section: 22
+# E-mail:  Jzeng1@umbc.edu 
+# Description:
+# This program takes in a range of integers and categorizes them as odd or even
+# prime or composite, perfect/abundant/deficient, square, triangular.
+
+MIN_NUM = 1         # minimum number allowed
+MAX_NUM = 100000    # maximum number allowed
+
+PERF = "Perfect"    # return values for checkForPerfect function
+ABD  = "Abundant"
+DEF  = "Deficient"
+
+######################################################################
+# printGreeting() explains the program to the user
+# Input:          none
+# Output:         none (prints greeting)
+
+define the function printGreeting():
+print out This program classifies positive integers as Odd/Even, Prime/Comosite, Perfect/Abundant/Deficient, Square, and Triangular.
+
+define the function printTableHead():
+print out Int      Classificiations.............................
+print out ------------------------------------------------------
+
+define the function printTableLine(): (with num,odd,prime,perf,square,tri inside the parenthesis)
+print out int(num),"   ",Booleans(odd),"   ",Booleans(prime),"   "str(perf),"   "
+Booleans(square), "   " ,Booleans(tri)
+These need to be neatly aligned 
+
+	
+######################################################################
+# getValidInt() reprompts the user until they enter a number
+#               between a minimum and maximum (inclusive)
+# Input:        minn;   integer of lower accepted range
+#               maxx;   integer of upper accepted range
+# Output:       newInt; integer between minn and maxx inclusive
+
+define the function getValidInt(minn, maxx): (with minn and max inside the 
+parenthesis)
+
+Set the message to a variable of userInt 
+userInt = Enter a number between + srt(minn) + and str(maxx) + (inclusive):
+
+print out Start with which positive integer
+set a variable call newStart equal user input of the variable userInt
+newStart = int(input(userInt) 
+
+print out End with which positive integer
+set a variable call newEnd euql user input of the variable userInt
+newEnd = int(input(userInt)
+
+create a while loop
+while newStart is less than the MIN_NUM(the constant in globe) or newStart is greater than the MAX_NUM
+print out That number is not allowed. please try again
+ask for user input again
+
+create another while loop
+while newEnd is less than the MIN_NUM(the constant in globe) or newEnd is greater than the MAX_NUM
+print out That number is not allowed. please try again
+ask for user input again
+
+return both newStart and newEnd
+
+define the function isDivisor(): (with  origNum, possDiv inside the parenthesis)
+use an if statement if origNum % possDiv == 0
+return true
+else:
+return false
+
+define the function sumDivisor(num):
+
+	
+######################################################################
+# isOdd() calculates whether num is odd or not
+# Input:  num;      an integer we're checking for oddness
+# Output: numIsOdd; a Boolean that says if num is odd
+#                   (returns True if odd, False if even)
+
+define the function isOdd(num):
+create a if statement 
+if num % 2 == 0:
+have it return false
+else
+have it return true
+
+define the function isPrime(num):
+set a variable to count = 2 
+create a while loop with a counter
+set a variable to x = 0
+while count < num:
+using if statments num % count == 0 this checks for the remainder
+set x = 1
+then return false
+count += 1 for the counter to work
+if statment x == 0:
+return true
+
+define the function isSquare(num):
+set a variable to total = num // 2
+set a variable y = set([total])
+use a while loop 
+while total * total != num:
+      total = (total + (num // total)) // 2
+then use if statments inside the while loop
+     if total in y: return False
+     y.add(total)
+return True
+
+define the function isTriangular(num):
+set a variable total = num * (num + 1)/2
+set if statement num(num + 1) == total *2:
+return True
+else:
+return False
+
+def main():
+    set variable userList = []
+    # print the greeting to the user
+    printGreeting()
+
+    # get the number range from the user
+    getValidInt() x2
+    this will get the input from the user and i will be storing these integes in a list
+
+    # before we start printing the number info, print the table head
+    printTableHead()
+
+    # print out all of the numbers and their properties
+    so this is print(Odd, prime, perfect etc)
+    
+    I would have some type of counter for this while loop
+    while (from starting number to end):
+        # get if the current number is odd, prime, perfect, triangular,square]
+	using if statement if true then it will print that its odd or even, or prime/nither/composite or perfect/deificent/abundant and triangular, square.
+        isOdd()
+        isPrime()
+	checkForPerfect()
+	isSquare()
+	isTriangular()
+
+main()

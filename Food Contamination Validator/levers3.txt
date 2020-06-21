@@ -1,0 +1,10 @@
+white
+white
+green
+black
+red
+red
+red
+red
+yellow
+yellow

@@ -1,0 +1,285 @@
+# File:    proj2.py
+# Author:  Jason Zeng
+# Date:    5/1/2017
+# Section: 22
+# E-mail:  jzeng1@umbc.edu
+# Description: This program allows you to play Minesweeper. The object of the game is to flag every mine, using clues about the number of neighboring mines in each field.  To win the game, flag all of the mines (and don't incorrectly flag any non-mine fields). 
+
+EMPTY_FIELD = "."
+THE_FLAG = "F"
+DETONATED_MINE = "X"
+A constant for the numbers that indicate where the bomb might be connected to.
+A constant for the indexs.
+
+#There is more constants to be added I just find that these are the most important for my program design so far.
+
+########################################################################
+# printGreetings() print the greetings of the program                  #
+#                                                                      #
+# Input:  NONE                                                         #
+# Output: NONE it prints the greetings                                 #  
+
+def printGreetings():
+  print("\tThis program allows you to play Minesweeper. \n\tThe object of the game is to flag every mine,\n\tusing clues about the number of neighboring \n\tmines in each field. To win the game, flag \n\tall of the mines (and don't incorrectly flag \n\tany non-mine fields). Good luck!\n")
+  
+########################################################################
+# fileIoAccess() opens the txt file and prints out the board           #
+#                                                                      #
+# Input:  NONE                                                         #
+# Output: the board; 2d list                                           #  
+
+def fileIoAccess():
+  #This list is for minipulating the values in the board
+  listBoard =[]
+  inputFile = input("Please enter file to load machine from: ")
+  mineBoard = open(inputFile, "r")
+  
+  #going through mineBoard so that it can be strip then appended to a list
+  for eachLine in mineBoard:
+    theBoard = eachLine.strip()
+    listBoard.append([theBoard])
+    
+  return listBoard
+
+########################################################################
+# hiddenBoard() hides all the elements inside the board                #
+#                                                                      #
+# Input:  A 2D list from listBoard                                     #
+# Output: A 1D updated List                                            #  
+
+def hiddenBoard(listBoard):
+  
+  #This is the updated List when the values are change to periods to hide the bombs 
+  updatedList = []
+  
+  #append the top of the row so the "++++++""
+  updatedList.append(listBoard[0][0])
+  
+  #This for loop goes through the index 1 through the end by rows
+  for index in range(1,len(listBoard)-1):
+    listIndex = list(listBoard[index][0])
+    
+    #This is if the index reach these values then it will change the values inside to periods
+    if index == 1 or index == 2 or index == 3 or index == 4 or index == 5 or index == 6 or index == 7 or index == 8 or index == 9:
+      
+      #This for loop also goes through the index 1 through the end by rows 
+      for index in range(1,len(listBoard)-1):
+        listIndex[index] = EMPTY_FIELD
+    
+    #This join function combines the string inside the list
+    joinString  = "".join(listIndex)
+    
+    #Then it is appended to updatedList
+    updatedList.append(joinString)
+    
+  #append the bottom of the row so the "++++++"  
+  updatedList.append(listBoard[0][0])
+  
+  return updatedList
+
+########################################################################
+# bombCounter() counts the amount of bombs in the board                #
+#                                                                      #
+# Input:  A 2D list from listBoard                                     #
+# Output: An integer the sum of the bombs                              #  
+
+def bombCounter(listBoard):
+  #This is to allow the string inside the list to be mainipulated. which is why i need another list
+  bombCountList = []
+  
+  #This for loop goes through the index 1 through the end by rows
+  for index in range(1,len(listBoard)-1):
+    listIndex = list(listBoard[index][0])
+    
+    #This appends the list into the bombCountList
+    bombCountList.append(listIndex)
+  
+  #This add the total amount of bombs inside the board
+  totalBombs = sum(row.count('*') for row in bombCountList)
+  print("\tThere are",totalBombs,"mines left to find\n")
+  
+  return totalBombs
+  
+  
+########################################################################
+# checkRowsAndColumns() Checks the values for both rows and columns    #
+#                                                                      #
+# Input:  An integer of the maximun length of the rows and columns     #
+# Output: An integer for both rows and columns in a list               #  
+
+def checkRowsAndColumns(maxValue):
+  #This is the row portion of the code
+  print("Please choose the row:")
+  messageRows = "Enter a number between 1 and "+str(maxValue)+" (inclusive): "
+  userRows = int(input(messageRows))
+  
+  #if userRows is greater than the maxValue or userRows is less than 1 then it repromts the user input.
+  while userRows > maxValue or userRows < 1:
+    print("That number is not allowed Please try again!")
+    userRows = int(input(messageRows))
+  
+  #This is the columns portion of the code
+  print("Please choose the columns")
+  messageRows = "Enter a number between 1 and "+str(maxValue)+" (inclusive): "
+  userColumns = int(input(messageRows))
+  
+  #if userColumns is greater than the maxValue or userColumns is less than 1 then it repromts the user input.
+  while userColumns > maxValue or userColumns < 1:
+    print("That number is not allowed Please try again!")
+    userColumns = int(input(messageRows))
+    
+  return userRows,userColumns
+  
+########################################################################
+# This fxn provided by Dr. Gibson, and may be modified as you see fit. #
+########################################################################
+# prettyPrintBoard() prints the board with row and column labels,      #
+#                    and spaces the board out so that it looks square  #
+# Input:             board;   the rectangular 2d gameboard to print    #
+# Output:            none;    prints the board in a pretty way         #
+
+def prettyPrintBoard(board):
+    # if board is large enough, print a "tens column" line above the rows
+    if len(board[0]) - 2 >= 10:
+        firstLine = "\n     " + ("  ") * (10 - 1)
+        for i in range(10, len(board[0])-1 ):
+            firstLine += str(i // 10) + " "
+        print(firstLine, end="")
+
+    # create and print top numbered line (and empty line before)
+    topLine = "\n     "
+    # only go from 1 to len - 1, so we don't number the borders
+    for i in range(1, len(board[0])-1 ):
+        # only print the last digit (so 15 --> 5)
+        topLine += str(i % 10) + " "
+    print(topLine)
+
+    # create the border row
+    borderRow = "   "
+    for col in range(len(board[0])):
+        borderRow += board[0][col] + " "
+
+    # print the top border row
+    print(borderRow)
+
+    # print all the interior rows
+    for row in range(1, len(board) - 1):
+        # create the row label on the left
+        rowStr = str(row) + " "
+
+        # if it's a one digit number, add an extra space, so they line up
+        if row < 10:
+            rowStr += " "
+
+        # add the row contents to the row string, and print it out
+        for col in range(len(board[row])):
+            rowStr += str(board[row][col]) + " "
+        print(rowStr)
+
+    # print the bottom border row and an empty line
+    print(borderRow)
+    print()
+
+########################################################################
+# flagBoard() This prompt the board of the flag                        #
+#                                                                      #
+# Input:  A 2D list from listBoard                                     #
+# Output: A 1D list that is being displyed in the function             # 
+#         prettyPrintBoard():                                          #
+
+
+
+########################################################################
+# detonatingBoard() This prompt the board of detonated mines           #
+#                                                                      #
+# Input:  A 2D list from listBoard                                     #
+# Output: A 1D list that is being displayed in the function            #
+#         prettyPrintBoard(): 
+
+
+#NOTE that i must user recursion for this 
+########################################################################
+# revealingIsland() This prompt the revealing island in the board      #
+#                   from the user                                      #
+# Input:  Im still thinking about it but A 2D list from listBoard      #
+# Output: A 1D list that is being displayed in the function            # 
+#         prettyPrintBoard():
+
+
+def main():
+  
+  printGreetings()
+  listBoard = fileIoAccess()
+  updatedList = hiddenBoard(listBoard)
+  prettyPrintBoard(updatedList)
+  bombCounter(listBoard)
+  
+  #The Maximum value for the rows and columns.
+  theListForBoth = checkRowsAndColumns(len(listBoard) - 2)
+  
+  #This is so that i can take the values out for both the rows and columns
+  list(theListForBoth)
+  
+  #Setting both the values of rows and columns store in the variable.
+  valueRows = theListForBoth[0]
+  valueColumns = theListForBoth[1]
+  
+  
+  
+  
+  #This ask the user to reveal the spaces or flag it.
+  revealOrMark = input("Enter 'r' to reveal the space, or\nenter 'f' to mark the space with a flag:")
+  
+  #A while loop if f and r is not inside of revealOrMark then it will repromts the user.
+  while "f" not in revealOrMark and "r" not in revealOrMark:
+    print("That's not a valid action.")
+    revealOrMark = input("Enter 'r' to reveal the space, or\nenter 'f' to mark the space with a flag:")
+  
+  
+  
+  
+  
+  
+  
+  
+  #This is used to update 
+  updatedListFlag = []
+  #This is used for the function prettyPrintBoard to display the board which is a 1D list
+  displayListFlag = []
+  
+  if revealOrMark == 'f':
+    
+    #This for loop goes through the index through the end by rows
+    for index in range(len(listBoard)):
+      listIndexFlag = list(updatedList[index])
+      
+      #This is then appended to updatedListFlag
+      updatedListFlag.append(listIndexFlag)
+      
+    #From the user input of rows and columns this changes the elements inside updatedListFlag which is a 
+    #2D list changing its values to THE_FLAG.
+    updatedListFlag[valueRows][valueColumns] = THE_FLAG
+    
+    #This for loop goes through the index through the end by rows
+    for index in range(len(listBoard)):
+      
+      #This join function combines the string inside the list
+      joinList = "".join(updatedListFlag[index])
+      
+      #Then its appended to displayListFlag
+      displayListFlag.append(joinList)
+      
+  prettyPrintBoard(displayListFlag)
+ 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+main()

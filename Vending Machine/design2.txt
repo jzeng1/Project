@@ -1,0 +1,117 @@
+# File:    design2.txt
+# Author:  Jason Zeng
+# Date:    4/10/2017
+# Section: 22
+# E-mail:  jzeng1@umbc.edu
+# Description: This program read in the contents of a vending machine from file, setting the
+#              inital card balance from user, Display the vending machine, user then make
+#              their selction, chekcs the blanace of the card, also adds money to the card and
+#              updating the txt file.
+
+#This Constant is for the numbers between 0 and 5
+MAX_VAL = 5
+MIN_VAL = 1
+#This Constant is for the checkChoices and numBetween
+ACCESS_CHOICE1 = 1
+ACCESS_CHOICE2 = 2 
+ACCESS_CHOICE3 = 3
+ACCESS_CHOICE4 = 4
+ACCESS_CHOICE5 = 5
+#There are going to be more constant added later on.
+
+##############################################################################
+# printGreetings() print out the greetings
+# Input:  nothing is being input.
+# Output: A print statement.
+
+def printGreetings():
+  print("This program simulates a vending machine.  You may choose which vending machine you 'load' in and may also specify how much money you have available for purchasing vending machine items.")
+  print("")
+
+##################################################################################
+# printMenu() print out the greetings
+# Input:  nothing is being input.
+# Output: A print statement of the menu going through a 2D list
+
+def printMenu():
+  menuList = [["Display Vending Machine",1],
+             ["Make Selection",2],
+             ["Display Card Balance",3],
+             ["Add Money to Card",4],
+             ["Quit",5]]
+             
+  counter = 0 
+  while counter < len(menuList):
+    print(menuList[counter][1], "-",menuList[counter][0])
+    counter += 1
+
+##################################################################################
+# getVaildAmount() this vaildates the amount inputed by the user
+# Input:  nothing is being input.(i think i would have to input the amount for the snacks from candi.txt )
+# Output: the amount of money they have in the card.
+
+#THINK IT BEST TO CHANGE THIS TO CHOICE 1 FOR THE FUNCTION 
+def getVaildAmount():
+  print("Please enter the amount of money you have on your card.")
+  userAmount = float(input("Enter a decimal number (greater than or equal to zero):"))
+  
+  while userAmount < 0:
+    print("The decimal number must be positive.  Please try again!")
+    userAmount = float(input("Enter a decimal number (greater than or equal to zero):"))
+  return userAmount
+
+##################################################################################
+# checkChoices() this vaildates the number inputed by the user
+# Input:  nothing is being input.(still thinking of what goes in here)
+# Output: the number for the choices
+
+def checkChoices():
+  userNumber = int(input("Enter a number between 1 and 5 (inclusive): "))
+  while userNumber > MAX_VAL or userNumber < MIN_VAL:
+      print("That number is not allowed Please try again!")
+      userNumber = int(input("Enter a number between 1 and 5 (inclusive): "))
+  return userNumber
+
+##################################################################################
+# getVaildChoiceVen() this vaildates the options of the vending machine inputed by the user
+# Input:  nothing is being input.(still thinking of what goes in here)(i think i might put alot of the 
+# value when accessing the candi.txt file.
+# Output: a print statement that says this option is vaild or not
+
+def getVaildChoiceVen():
+
+#I might add a few more function to accomidate the choices that the user picks.
+#For example the choices 1-Display Vedning Machine, 2- Make selction, 3 - Display Card Balance, 4-Add money to card, 5 - Quit 
+
+def main():
+  printGreetings()
+  
+  #I AM HAVING AN IDEA TO STORE ALL THE VALUES OF CANDI.TXT TO A 3D LIST 
+  #vendingList = []
+  
+  #IM STILL THINKING ABOUT HOW TO TAKE ALL OF THE VALUE FROM theProduct,theAmount,inStock,theLocation and input the value into the function i declared.
+  inputFile = input("Please enter file to load machine from: ")
+  VendingMachine = open(inputFile)
+  for line in VendingMachine:
+    theProduct, theAmount, inStock, theLocation = line.split()
+    print(theProduct,theAmount,inStock,theLocation)
+    
+  getVaildAmount()
+  printMenu()
+
+  #For this section i feel maybe somehow i could run a for loop insted of if statments to help with the conditions that i set.
+  #Also all these magic numbers you see on my code are going to be turn to constants.
+  #for x in range(1,6):
+  #  if checkChoices() == x:
+  #    print("IT")
+  numBetween = checkChoices()
+  #Make these number a constant
+  #  if numBetween == 1:
+  #elif numBetween == 2:
+  #elif numbetween == 3:
+  if numBetween == 4:
+    getVaildAmount()
+  #elif numBetween == 5:
+    
+
+main()

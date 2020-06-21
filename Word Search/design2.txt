@@ -1,0 +1,125 @@
+# File:    design2.txt
+# Author:  Jason Zeng
+# Date:    6/10/2017
+# Section: 22
+# E-mail:  jzeng1@umbc.edu
+# Description: This Program will find the word inside the txt file print out each word that was found or not. If the word is found the coordinate for the word is shown, also the direction.
+
+#Constant that i am gonna use in the reccusive portion of the program also 
+#the sense of direction for the function updatedCoordinates()
+NOT_FOUND = 0
+UP_DIRECTION = 1
+UP_LEFT = 2
+UP_RIGHT = 3
+DOWN_LEFT = 4
+DOWN_RIGHT = 5
+BACK_LEFT = 6
+RIGHT_DIRECTION = 7
+
+########################################################################
+# printGreetings() print the greetings of the program                  #
+#                                                                      #
+# Input:  NONE                                                         #
+# Output: NONE it prints the greetings                                 #
+
+def printGreetings():
+    print("Welcome to the Word Search")
+    print("For this, you will import two files: ")
+    print()
+    print("\t1. The word search grid")
+    print("\t2. The word list")
+    print()
+
+########################################################################
+# fileIoAccessSearch() opens the txt file and prints out the board     #
+#                                                                      #
+# Input:  NONE                                                         #
+# Output: the board; 2d list                                           #
+
+def fileIoAccessSearch():
+
+    #This list contains value inside the board creating a 2d list
+    listBoard = []
+
+    inputSearch = input("What word search grid file would you like to import?: ")
+    wordBoard = open(inputSearch, "r")
+
+    #going through wordBoard so that it can be split then appended to a list
+    for eachLine in wordBoard:
+	theBoard = eachLine.split()
+	listBoard.append(list(theBoard))
+
+    return listBoard
+
+########################################################################
+# fileIoAccessWord() opens the txt file and prints out the board       #
+#                                                                      #
+# Input:  NONE                                                         #
+# Output: the board; 1d list                                           #
+
+def fileIoAccessWord():
+
+    #This list contain all of the words
+    listWords = []
+
+    inputWord = input("What word list file would you like to import?: ")
+    wordToFind = open(inputWord, "r")
+
+    #going through wordToFind so that it can be split then appended to a list
+    for eachLine in wordToFind:
+    	theWord = eachLine.strip()
+	listWords.append(theWord)
+
+    return listWords
+
+########################################################################
+#findFirstLetter() finds the first letter of the word in the board of  #
+#                  of the given word                                   #
+#                                                                      #
+# Input:  2D,1D list theBoard,theWord                                  #
+# Output: 2D List of the coordinate                                    #
+
+def findFirstLetter(theBoard,theWord):
+    
+    startList =[]
+
+    for row in range(len(theBoard)):
+    	for col in range(len(theBoard)):
+	
+		if theBoard[row][col] == theWord[0]:
+		   coordinatePoints = (row,col)
+		   startList.append(list(coordinatePoints))
+
+    return startList
+
+########################################################################
+#checkForWord() This uses recursion, checking the letter surrounding   #
+#               The first letter of the word given from the coordinate #
+#                                                                      #
+# Input:  2D list theBoard, word string, coord list of coordinate      #
+# Output: 2D List of the coordinate                                    #
+
+##############################################################################
+#updatedCoordinates() This function print the word,coordinate and            #
+#                     the direction it goes.                                 #
+#                                                                            #
+#                                                                            #
+# Input:  2D list theBoard, word string, coord list of coordinate            #
+# Output: NONE gonna print out the word coordinate and the direction it goes #
+
+def main():
+    printGreetings()
+    theBoard = fileIoAccessSearch()
+    theWord = fileIoAccessWord()
+
+    #Iterating through a list in theWord
+    for word in theWord:
+    	coordList = findFirstLetter(theBoard,word)
+	
+	#Iterating through a list in coordList
+	for coord in coordList:
+	    print(coord)
+
+
+main()
+											  
